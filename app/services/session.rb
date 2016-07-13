@@ -32,11 +32,7 @@ class Session
   end
 
   def sign_out
-    if user && user.auth_token
-      user.auth_token.delete && true
-    else
-      false
-    end
+    auth_token.delete
   end
 
   private
