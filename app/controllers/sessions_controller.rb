@@ -4,6 +4,7 @@ class SessionsController < ApplicationController
   before_action :session_service, except: :create
 
   def destroy
+    puts @session_service.inspect
     if @session_service.sign_out
       head :ok
     else
@@ -21,7 +22,7 @@ class SessionsController < ApplicationController
   end
 
   def session_service
-    raise "Current user is nil" unless current_user?
+    raise "Current user is nil" unless current_user
 
     @session_service ||= Session.new email: current_user.email
   end
