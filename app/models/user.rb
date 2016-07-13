@@ -8,6 +8,6 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :chats
 
   def sign_out
-    auth_token.delete
+    errors.add :auth_token, "Failed to sign_out" unless auth_token.delete
   end
 end
