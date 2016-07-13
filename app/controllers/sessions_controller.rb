@@ -4,7 +4,6 @@ class SessionsController < ApplicationController
   before_action :session_service, except: :create
 
   def destroy
-    puts @session_service.inspect
     if @session_service.sign_out
       head :ok
     else
