@@ -31,6 +31,14 @@ class Session
     { auth_token: auth_token_value }
   end
 
+  def sign_out
+    if user && user.auth_token
+      user.auth_token.delete && true
+    else
+      false
+    end
+  end
+
   private
   def user
     @user ||= User.find_by email: @email

@@ -1,11 +1,13 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate!, only: :create
 
+  before_action :session_service, except: :create
+
   def destroy
-    if current_user && current_user.sign_out
-      render nothing: true, status: :ok
+    if @session_service.sign_out
+      head :ok
     else
-      render json: current_user.errors.full_messages, status: :bad_request
+      head :not_acceptable
     end
   end
 
@@ -16,5 +18,11 @@ class SessionsController < ApplicationController
 
   def resource_params
     params.require(:session).permit(:email, :password)
+  end
+
+  def session_service
+    raise "Current user is nil" unless current_user?
+
+    @session_service ||= Session.new email: current_user.email
   end
 end
