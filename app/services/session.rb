@@ -31,6 +31,10 @@ class Session
     { auth_token: auth_token_value }
   end
 
+  def sign_out
+    auth_token.delete
+  end
+
   private
   def user
     @user ||= User.find_by email: @email

@@ -80,4 +80,19 @@ RSpec.describe Session do
 
     its(:as_json) { should eq auth_token: 'xxxx-yyyy-zzzz' }
   end
+
+  describe "#sign_out" do
+    before do 
+      @user, @auth_token = double, double
+      expect(subject).to receive(:user).and_return @user
+    end
+
+    context "when auth_token is present" do
+      before do
+        expect(@user).to receive(:auth_token).and_return @auth_token
+        expect(@auth_token).to receive(:delete).and_return @auth_token
+      end
+      its(:sign_out) { should eq @auth_token }
+    end
+  end
 end
