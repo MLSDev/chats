@@ -7,6 +7,10 @@ class SessionsController < ApplicationController
   end
 
   def resource_params
-    params.require(:session).permit(:email, :password)
+    if params[:session]
+      params.require(:session).permit(:email, :password)
+    else
+      current_user.attributes
+    end
   end
 end

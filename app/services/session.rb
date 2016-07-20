@@ -27,6 +27,10 @@ class Session
     user.create_auth_token && true
   end
 
+  def destroy!
+    user.auth_token.destroy!
+  end
+
   def as_json *args
     { auth_token: auth_token_value }
   end

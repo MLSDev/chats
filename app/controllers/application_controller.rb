@@ -21,6 +21,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def destroy
+    resource.destroy!
+
+    head :ok
+  end
+
   private
   def authenticate!
     current_user || raise(AuthorizationError)
