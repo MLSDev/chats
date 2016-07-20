@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def create
-    render :errors unless resource.save
+    render :errors unless build_resource.save
   end
 
   def current_user
