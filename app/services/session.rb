@@ -8,8 +8,6 @@ class Session
   def initialize params={}
     params = params&.symbolize_keys || {}
 
-    @user = params[:user]
-
     @email = params[:email]
 
     @password = params[:password]
@@ -27,10 +25,6 @@ class Session
     return false unless valid?
 
     user.create_auth_token && true
-  end
-
-  def destroy!
-    user.auth_token.destroy!
   end
 
   def as_json *args

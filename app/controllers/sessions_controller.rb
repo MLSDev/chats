@@ -1,13 +1,15 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate!, only: :create
 
-  private
-  def build_resource
-    @session ||= Session.new resource_params
+  def destroy
+    current_user.auth_token.destroy!
+    
+    head :ok
   end
 
+  private
   def resource
-    @session ||= Session.new user: current_user
+    @session ||= Session.new resource_params
   end
 
   def resource_params
