@@ -25,6 +25,54 @@ RSpec.describe ProfilesController, type: :controller do
     end
   end
 
+  describe '#create.js' do
+    let(:user) { double }
+
+    let(:params) { { 'email' => 'kathy@hartlova.com', 'password' => 'bigboobs', 'password_confirmation' => 'bigboobs' } }
+
+    before { expect(User).to receive(:new).with(params).and_return(user) }
+
+    context do
+      before { expect(user).to receive(:save).and_return(true) }
+
+      before { post :create, user: params, format: :js }
+
+      it { should render_template :create }
+    end
+
+    context do
+      before { expect(user).to receive(:save).and_return(false) }
+
+      before { post :create, user: params, format: :js }
+
+      it { should render_template :errors }
+    end
+  end
+
+  describe '#create.html' do
+    let(:user) { stub_model User, id: 1 }
+
+    let(:params) { { 'email' => 'kathy@hartlova.com', 'password' => 'bigboobs', 'password_confirmation' => 'bigboobs' } }
+
+    before { expect(User).to receive(:new).with(params).and_return(user) }
+
+    context do
+      before { expect(user).to receive(:save).and_return(true) }
+
+      before { post :create, user: params, format: :html }
+
+      it { should redirect_to "/profiles/#{user.id}" }
+    end
+
+    context do
+      before { expect(user).to receive(:save).and_return(false) }
+
+      before { post :create, user: params, format: :html }
+
+      it { should render_template :new }
+    end
+  end
+
   context do
     let(:user) { double }
 
